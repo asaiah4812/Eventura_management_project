@@ -1,18 +1,1 @@
-{
-  "app": {
-    "[project]/src/app/page": [
-      "static/media/pxiGyp8kv8JHgFVrLPTucHtAOvWDSA-s.p.65d31cf5.woff2",
-      "static/media/pxiByp8kv8JHgFVrLFj_Z1xlFd2JQEk-s.p.79a0f3e8.woff2",
-      "static/media/pxiByp8kv8JHgFVrLDz8Z1xlFd2JQEk-s.p.11d83409.woff2",
-      "static/media/pxiEyp8kv8JHgFVrJJfecnFHGPc-s.p.c336a9d1.woff2",
-      "static/media/pxiByp8kv8JHgFVrLGT9Z1xlFd2JQEk-s.p.ab5dbd7e.woff2",
-      "static/media/pxiByp8kv8JHgFVrLEj6Z1xlFd2JQEk-s.p.dd0b3887.woff2",
-      "static/media/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk-s.p.d95035ce.woff2",
-      "static/media/pxiByp8kv8JHgFVrLDD4Z1xlFd2JQEk-s.p.d66bbad7.woff2",
-      "static/media/pxiByp8kv8JHgFVrLBT5Z1xlFd2JQEk-s.p.c194becc.woff2"
-    ]
-  },
-  "appUsingSizeAdjust": true,
-  "pages": {},
-  "pagesUsingSizeAdjust": false
-}
+{"pages":{},"app":{"/home/dreamer/Desktop/nextjs_project/Eventura_management_project/src/app/layout":["static/media/4c285fdca692ea22-s.p.woff2","static/media/9e82d62334b205f4-s.p.woff2","static/media/6245472ced48d3be-s.p.woff2","static/media/7db6c35d839a711c-s.p.woff2","static/media/b957ea75a84b6ea7-s.p.woff2","static/media/7108afb8b1381ad1-s.p.woff2","static/media/eafabf029ad39a43-s.p.woff2","static/media/0484562807a97172-s.p.woff2","static/media/8888a3826f4a3af4-s.p.woff2"]},"appUsingSizeAdjust":true,"pagesUsingSizeAdjust":false}
