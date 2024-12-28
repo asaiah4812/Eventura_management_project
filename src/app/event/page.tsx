@@ -42,13 +42,13 @@ const Events = () => {
           <p className='text-sm md:text-md text-justify'>
           Join us for the Blockchain Summit 2024, where technology meets innovation! This event brings together leading experts, developers, and enthusiasts to discuss the latest trends in blockchain technology, decentralized systems, and their real-world applications.
 
-            Explore insightful talks, interactive workshops, and networking opportunities designed to help you stay ahead in the ever-evolving world of blockchain. Whether you're an experienced professional or just getting started, there's something for everyone.
+            Explore insightful talks, interactive workshops, and networking opportunities designed to help you stay ahead in the ever-evolving world of blockchain. Whether you&apos;re an experienced professional or just getting started, there&apos;s something for everyone.
 
-            Don’t miss the chance to connect, learn, and innovate!Join us for the Blockchain Summit 2024, where technology meets innovation! This event brings together leading experts, developers, and enthusiasts to discuss the latest trends in blockchain technology, decentralized systems, and their real-world applications.
+            Don&apos;t miss the chance to connect, learn, and innovate!Join us for the Blockchain Summit 2024, where technology meets innovation! This event brings together leading experts, developers, and enthusiasts to discuss the latest trends in blockchain technology, decentralized systems, and their real-world applications.
 
-            Explore insightful talks, interactive workshops, and networking opportunities designed to help you stay ahead in the ever-evolving world of blockchain. Whether you're an experienced professional or just getting started, there's something for everyone.
+            Explore insightful talks, interactive workshops, and networking opportunities designed to help you stay ahead in the ever-evolving world of blockchain. Whether you&apos;re an experienced professional or just getting started, there&apos;s something for everyone.
 
-            Don’t miss the chance to connect, learn, and innovate!
+            Don&apos;t miss the chance to connect, learn, and innovate!
           </p>
 
           <div className='py-4'>

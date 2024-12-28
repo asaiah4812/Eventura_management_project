@@ -74,7 +74,7 @@ const TabsProvider = ({ children, defaultValue, wobbly = true, hover = false })=
         children: children
     }, void 0, false, {
         fileName: "[project]/src/components/core/tab.tsx",
-        lineNumber: 63,
+        lineNumber: 70,
         columnNumber: 5
     }, this);
 };
@@ -87,10 +87,10 @@ const TabsBtn = ({ children, className, value })=>{
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$render$2f$components$2f$motion$2f$proxy$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["motion"].div, {
         className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["cn"])(`cursor-pointer sm:p-2 p-1 sm:px-4 px-2 rounded-md relative`, className),
         onFocus: ()=>{
-            hover && handleClick();
+            if (hover) handleClick();
         },
         onMouseEnter: ()=>{
-            hover && handleClick();
+            if (hover) handleClick();
         },
         onClick: handleClick,
         children: [
@@ -109,12 +109,12 @@ const TabsBtn = ({ children, className, value })=>{
                     className: "absolute w-full h-full left-0 top-0 bg-[#374151] rounded-md z-[1]"
                 }, void 0, false, {
                     fileName: "[project]/src/components/core/tab.tsx",
-                    lineNumber: 120,
+                    lineNumber: 127,
                     columnNumber: 11
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/components/core/tab.tsx",
-                lineNumber: 119,
+                lineNumber: 126,
                 columnNumber: 9
             }, this),
             wobbly && activeTab === value && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -133,12 +133,12 @@ const TabsBtn = ({ children, className, value })=>{
                             className: "absolute w-full h-full left-0 top-0 bg-[#374151] rounded-md z-[1] tab-shadow"
                         }, void 0, false, {
                             fileName: "[project]/src/components/core/tab.tsx",
-                            lineNumber: 137,
+                            lineNumber: 144,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/core/tab.tsx",
-                        lineNumber: 136,
+                        lineNumber: 143,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$framer$2d$motion$2f$dist$2f$es$2f$components$2f$AnimatePresence$2f$index$2e$mjs__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["AnimatePresence"], {
@@ -155,12 +155,12 @@ const TabsBtn = ({ children, className, value })=>{
                             className: "absolute w-full h-full left-0 top-0 dark:bg-base-dark bg-[#374151] rounded-md z-[1] tab-shadow"
                         }, void 0, false, {
                             fileName: "[project]/src/components/core/tab.tsx",
-                            lineNumber: 150,
+                            lineNumber: 157,
                             columnNumber: 13
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/components/core/tab.tsx",
-                        lineNumber: 149,
+                        lineNumber: 156,
                         columnNumber: 11
                     }, this)
                 ]
@@ -168,7 +168,7 @@ const TabsBtn = ({ children, className, value })=>{
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/core/tab.tsx",
-        lineNumber: 103,
+        lineNumber: 110,
         columnNumber: 5
     }, this);
 };
@@ -199,12 +199,12 @@ const TabsContent = ({ children, className, value, yValue })=>{
             children: children
         }, void 0, false, {
             fileName: "[project]/src/components/core/tab.tsx",
-            lineNumber: 182,
+            lineNumber: 189,
             columnNumber: 9
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/core/tab.tsx",
-        lineNumber: 180,
+        lineNumber: 187,
         columnNumber: 5
     }, this);
 };

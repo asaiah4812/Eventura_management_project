@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import { AuthContextProvider } from '@/context/AuthContext';
+import { AuthContextProvider } from "@/context/AuthContext";
+import { EventContextProvider } from "@/context/EventContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-
 const poppins = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
   subsets: ["latin"],
 });
-
 
 export const metadata: Metadata = {
   title: "Eventura",
@@ -24,16 +23,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={poppins.className}
-      >
+      <body className={poppins.className}>
         <AuthContextProvider>
-          <Navbar/>
-          <main className="bg-[#111827] min-h-screen py-16">
-          {children}
-          </main>
-          <Footer/>
-          </AuthContextProvider>
+          <EventContextProvider>
+            <Navbar />
+            <main className="bg-[#111827] min-h-screen py-16">{children}</main>
+            <Footer />
+          </EventContextProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );

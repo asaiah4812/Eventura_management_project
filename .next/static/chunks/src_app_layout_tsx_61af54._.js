@@ -14,7 +14,7 @@
     "static/chunks/node_modules_@okxconnect_ui_lib_index_mjs_e65a17._.js",
     "static/chunks/node_modules_react-icons_6ed981._.js",
     "static/chunks/node_modules_14bbfa._.js",
-    "static/chunks/src_12369e._.js"
+    "static/chunks/src_133d8e._.js"
   ],
   "source": "dynamic"
 });

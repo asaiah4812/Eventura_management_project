@@ -39,6 +39,13 @@ interface TabsProviderProps {
   hover?: boolean;
 }
 
+interface TabsContentProps {
+  value: string;
+  children: ReactNode;
+  className?: string;
+  yValue?: number;
+}
+
 export const TabsProvider = ({
   children,
   defaultValue,
@@ -52,7 +59,7 @@ export const TabsProvider = ({
   useEffect(() => {
     const order: string[] = [];
     React.Children.forEach(children, (child) => {
-      if (isValidElement(child) && child.type === TabsContent) {
+      if (isValidElement<TabsContentProps>(child) && child.type === TabsContent) {
         order.push(child.props.value);
       }
     });
@@ -106,10 +113,10 @@ export const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
         className
       )}
       onFocus={() => {
-        hover && handleClick();
+        if (hover) handleClick();
       }}
       onMouseEnter={() => {
-        hover && handleClick();
+        if (hover) handleClick();
       }}
       onClick={handleClick}
     >
@@ -196,4 +203,3 @@ export const TabsContent = ({ children, className, value, yValue }: TabsContentP
     </AnimatePresence>
   );
 };
-

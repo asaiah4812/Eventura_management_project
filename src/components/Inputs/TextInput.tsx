@@ -1,16 +1,27 @@
-import React from 'react'
+import React from "react";
 
-interface TextProps {
-    type: string;
-    holder: string;
+interface TextInputProps {
+  type: "text" | "number" | "email";
+  holder: string;
+  value?: string | number;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const TextInput = ({type, holder}:TextProps) => {
+const TextInput: React.FC<TextInputProps> = ({
+  type,
+  holder,
+  value,
+  onChange,
+}) => {
   return (
-    <div>
-        <input type={type} className="bg-transparent p-4 w-full placeholder:md:text-xl  outline-none"  placeholder={holder} />
-    </div>
-  )
-}
+    <input
+      type={type}
+      placeholder={holder}
+      value={value}
+      onChange={onChange}
+      className="w-full px-4 py-3 rounded-lg bg-[#111827] border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+    />
+  );
+};
 
-export default TextInput
+export default TextInput;

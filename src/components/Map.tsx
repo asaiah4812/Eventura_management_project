@@ -18,7 +18,7 @@ const Map = () => {
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ""
   })
 
-  const [map, setMap] = React.useState<google.maps.Map | null>(null)
+  const [, setMap] = React.useState<google.maps.Map | null>(null)
 
   const onLoad = React.useCallback(function callback(map: google.maps.Map) {
     const bounds = new window.google.maps.LatLngBounds(center)
@@ -26,7 +26,7 @@ const Map = () => {
     setMap(map)
   }, [])
 
-  const onUnmount = React.useCallback(function callback(map: google.maps.Map) {
+  const onUnmount = React.useCallback(function callback() {
     setMap(null)
   }, [])
 
@@ -80,4 +80,3 @@ const Map = () => {
 }
 
 export default Map
-
