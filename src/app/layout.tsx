@@ -29,7 +29,7 @@ export default function RootLayout({
       >
         <AuthContextProvider>
           <Navbar/>
-          <main className="bg-[#111827] min-h-screen">
+          <main className="bg-[#111827] min-h-screen py-16">
           {children}
           </main>
           <Footer/>

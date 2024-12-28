@@ -39,13 +39,13 @@ function Tab() {
         <TabsContent value='collaborate'>
           <div className='w-full mt-5'>
             <div className='p-4 rounded-md ring-1 ring-slate-600 mb-4 bg-[#111827] space-y-3'>
-                <h2 className='font-bold text-lg'>Event title</h2>
+                <h2 className='font-bold text-lg'>Decentralized Tech Meetup 2024</h2>
                 <h3 className='font-light  gap-x-2 text-slate-300 inline-flex'>Status: <span className='text-white font-medium inline-flex gap-x-2 items-center'><div className='w-2 h-2 rounded-full bg-blue-700'></div> upcomming</span></h3>
                 <div className='flex items-center text-xs gap-x-2 text-slate-300'>
                 <CalendarClock width={16}/>
                 <span>March 10, 2024 | 3:00PM</span>
                 </div>
-                <hr />
+                <hr className='border border-solid' />
                 <div className='flex items-center justify-between'>
                 <div className='inline-flex items-center'>
                 <h2 className='font-bold text-xl sm:text-2xl lg:text-4xl'>$50</h2>
@@ -61,7 +61,7 @@ function Tab() {
                 <CalendarClock width={16}/>
                 <span>March 10, 2024 | 3:00PM</span>
                 </div>
-                <hr />
+                <hr className='border border-solid' />
                 <div className='flex items-center justify-between'>
                 <div className='inline-flex items-center'>
                 <h2 className='font-bold text-xl sm:text-2xl lg:text-4xl'>$50</h2>
