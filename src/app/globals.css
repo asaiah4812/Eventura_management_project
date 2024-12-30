@@ -4,108 +4,66 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+	--background: #ffffff;
+	--foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+	:root {
+		--background: #0a0a0a;
+		--foreground: #ededed;
+	}
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Calendar Styles */
-.rdp {
-  --rdp-cell-size: 40px;
-  --rdp-accent-color: #3b82f6;
-  --rdp-background-color: #1f2937;
-  --rdp-accent-color-dark: #2563eb;
-  --rdp-background-color-dark: #111827;
-  --rdp-outline: 2px solid var(--rdp-accent-color);
-  --rdp-outline-selected: 2px solid var(--rdp-accent-color);
-  margin: 0;
-}
-
-.rdp-months {
-  background-color: var(--rdp-background-color-dark);
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-}
-
-.rdp-month {
-  background-color: var(--rdp-background-color-dark);
-}
-
-.rdp-day {
-  border-radius: 0.5rem;
-  transition: all 0.2s;
-}
-
-.rdp-day_selected {
-  background-color: var(--rdp-accent-color) !important;
-  color: white !important;
-}
-
-.rdp-day_selected:hover {
-  background-color: var(--rdp-accent-color-dark) !important;
-}
-
-.rdp-day:hover {
-  background-color: var(--rdp-accent-color-dark) !important;
-  color: white !important;
+	color: var(--foreground);
+	background: var(--background);
+	font-family: Arial, Helvetica, sans-serif;
 }
 
 .page-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(to bottom right, #10b981, #047857);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(to bottom right, #10b981, #047857);
 }
 
 .card {
-  background-color: #ffffff;
-  border-radius: 0.5rem;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 2rem;
-  width: 100%;
-  max-width: 24rem;
+	background-color: #ffffff;
+	border-radius: 0.5rem;
+	box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+	padding: 2rem;
+	width: 100%;
+	max-width: 24rem;
 }
 
 .card-title {
-  font-size: 1.875rem;
-  font-weight: 700;
-  text-align: center;
-  margin-bottom: 0.5rem;
-  color: black;
+	font-size: 1.875rem;
+	font-weight: 700;
+	text-align: center;
+	margin-bottom: 0.5rem;
 }
 
 .card-subtitle {
-  color: #4b5563;
-  text-align: center;
-  margin-bottom: 1.5rem;
+	color: #4b5563;
+	text-align: center;
+	margin-bottom: 1.5rem;
 }
 
 .button {
-  width: 100%;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s ease-in-out;
-  color: #ffffff;
+	width: 100%;
+	padding: 0.5rem 1rem;
+	font-weight: 600;
+	border-radius: 0.5rem;
+	transition: background-color 0.2s ease-in-out;
+	color: #ffffff;
 }
 
 .button-connect {
-  background-color: #10b981;
+	background-color: #10b981;
 }
 
 .button-disconnect {
-  background-color: #6b7280;
+	background-color: #6b7280;
 }

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { AnimatePresence, motion } from 'framer-motion';
+import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
 import React, {
   ReactNode,
   createContext,
@@ -9,7 +9,7 @@ import React, {
   useEffect,
   useState,
   isValidElement,
-} from 'react';
+} from "react";
 
 interface TabContextType {
   activeTab: string;
@@ -27,7 +27,7 @@ const TabContext = createContext<TabContextType | undefined>(undefined);
 export const useTabs = () => {
   const context = useContext(TabContext);
   if (!context) {
-    throw new Error('useTabs must be used within a TabsProvider');
+    throw new Error("useTabs must be used within a TabsProvider");
   }
   return context;
 };
@@ -35,20 +35,28 @@ export const useTabs = () => {
 interface TabsProviderProps {
   children: ReactNode;
   defaultValue: string;
+  className?: string;
   wobbly?: boolean;
   hover?: boolean;
 }
 
-interface TabsContentProps {
-  value: string;
+interface TabsBtnProps {
   children: ReactNode;
   className?: string;
+  value: string;
+}
+
+interface TabsContentProps {
+  children: ReactNode;
+  className?: string;
+  value: string;
   yValue?: number;
 }
 
-export const TabsProvider = ({
+const TabsProvider = ({
   children,
   defaultValue,
+  className,
   wobbly = true,
   hover = false,
 }: TabsProviderProps) => {
@@ -59,7 +67,10 @@ export const TabsProvider = ({
   useEffect(() => {
     const order: string[] = [];
     React.Children.forEach(children, (child) => {
-      if (isValidElement<TabsContentProps>(child) && child.type === TabsContent) {
+      if (
+        isValidElement<{ value: string }>(child) &&
+        child.type === TabsContent
+      ) {
         order.push(child.props.value);
       }
     });
@@ -79,18 +90,19 @@ export const TabsProvider = ({
         tabsOrder,
       }}
     >
-      {children}
+      <div
+        className={cn(
+          "border bg-white/10 dark:bg-black/40 backdrop-blur-sm rounded-md p-4 relative",
+          className
+        )}
+      >
+        {children}
+      </div>
     </TabContext.Provider>
   );
 };
 
-interface TabsBtnProps {
-  children: ReactNode;
-  className?: string;
-  value: string;
-}
-
-export const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
+const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
   const {
     activeTab,
     setPrevIndex,
@@ -109,7 +121,7 @@ export const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
   return (
     <motion.div
       className={cn(
-        `cursor-pointer sm:p-2 p-1 sm:px-4 px-2 rounded-md relative`,
+        "cursor-pointer sm:p-2 p-1 sm:px-4 px-2 rounded-md relative",
         className
       )}
       onFocus={() => {
@@ -123,47 +135,47 @@ export const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
       {children}
 
       {activeTab === value && (
-        <AnimatePresence mode='wait'>
+        <AnimatePresence mode="wait">
           <motion.div
             transition={{
               layout: {
                 duration: 0.2,
-                ease: 'easeInOut',
+                ease: "easeInOut",
                 delay: 0.2,
               },
             }}
             layoutId={defaultValue}
-            className='absolute w-full h-full left-0 top-0 bg-[#374151] rounded-md z-[1]'
+            className="absolute w-full h-full left-0 top-0 dark:bg-base-dark bg-[#374151] rounded-md z-[1]"
           />
         </AnimatePresence>
       )}
 
       {wobbly && activeTab === value && (
         <>
-          <AnimatePresence mode='wait'>
+          <AnimatePresence mode="wait">
             <motion.div
               transition={{
                 layout: {
                   duration: 0.4,
-                  ease: 'easeInOut',
+                  ease: "easeInOut",
                   delay: 0.04,
                 },
               }}
               layoutId={defaultValue}
-              className='absolute w-full h-full left-0 top-0 bg-[#374151] rounded-md z-[1] tab-shadow'
+              className="absolute w-full h-full left-0 top-0 dark:bg-base-dark bg-[#374151] rounded-md z-[1] tab-shadow"
             />
           </AnimatePresence>
-          <AnimatePresence mode='wait'>
+          <AnimatePresence mode="wait">
             <motion.div
               transition={{
                 layout: {
                   duration: 0.4,
-                  ease: 'easeOut',
+                  ease: "easeOut",
                   delay: 0.2,
                 },
               }}
               layoutId={`${defaultValue}b`}
-              className='absolute w-full h-full left-0 top-0 dark:bg-base-dark bg-[#374151] rounded-md z-[1] tab-shadow'
+              className="absolute w-full h-full left-0 top-0 dark:bg-base-dark bg-[#374151] rounded-md z-[1] tab-shadow"
             />
           </AnimatePresence>
         </>
@@ -172,19 +184,17 @@ export const TabsBtn = ({ children, className, value }: TabsBtnProps) => {
   );
 };
 
-interface TabsContentProps {
-  children: ReactNode;
-  className?: string;
-  value: string;
-  yValue?: number;
-}
-
-export const TabsContent = ({ children, className, value, yValue }: TabsContentProps) => {
+const TabsContent = ({
+  children,
+  className,
+  value,
+  yValue,
+}: TabsContentProps) => {
   const { activeTab, tabsOrder, prevIndex } = useTabs();
   const isForward = tabsOrder.indexOf(activeTab) > prevIndex;
 
   return (
-    <AnimatePresence mode='popLayout'>
+    <AnimatePresence mode="popLayout">
       {activeTab === value && (
         <motion.div
           initial={{ opacity: 0, y: yValue ? (isForward ? 10 : -10) : 0 }}
@@ -192,10 +202,10 @@ export const TabsContent = ({ children, className, value, yValue }: TabsContentP
           exit={{ opacity: 0, y: yValue ? (isForward ? -50 : 50) : 0 }}
           transition={{
             duration: 0.3,
-            ease: 'easeInOut',
+            ease: "easeInOut",
             delay: 0.5,
           }}
-          className={cn('p-2 px-4 rounded-md relative', className)}
+          className={cn("p-2 px-4 rounded-md relative", className)}
         >
           {children}
         </motion.div>
@@ -203,3 +213,5 @@ export const TabsContent = ({ children, className, value, yValue }: TabsContentP
     </AnimatePresence>
   );
 };
+
+export { TabsBtn, TabsContent, TabsProvider };

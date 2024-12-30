@@ -1,200 +1,143 @@
 "use client";
 
 import React, { useState } from "react";
-import { MapPin, Calendar, DollarSign, Users, Info } from "lucide-react";
-import Map from "@/components/Map";
-import TextInput from "@/components/Inputs/TextInput";
-import { FileUploadDemo } from "@/components/Inputs/FileInput";
-import { DatePicker } from "@/components/Inputs/DateInput";
-import { useEvents } from "@/context/EventContext";
 import { useRouter } from "next/navigation";
+import { useEvents } from "@/context/EventContext";
+import { useAuth } from "@/context/AuthContext";
+import TextInput from "@/components/Inputs/TextInput";
+import DateInput from "@/components/Inputs/DateInput";
+import { format } from "date-fns";
 
-interface FormData {
-  name: string;
-  date: Date;
-  location: string;
-  ticketPrice: string;
-  totalTickets: string;
-  description: string;
-  image: string;
-}
-
-const CreateEvent = () => {
+export default function CreateEvent() {
   const router = useRouter();
-  const { createEvent, loading, error } = useEvents();
-  const [formData, setFormData] = useState<FormData>({
+  const { createEvent } = useEvents();
+  const { loggedIn } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [formData, setFormData] = useState({
     name: "",
+    description: "",
     date: new Date(),
     location: "",
-    ticketPrice: "",
-    totalTickets: "",
-    description: "",
-    image: "",
+    ticket_price: "",
+    total_tickets: "",
+    image_url: "",
   });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!loggedIn) {
+      setError("Please connect your wallet first");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
     try {
       await createEvent({
-        name: formData.name,
-        date: formData.date,
-        location: formData.location,
-        ticketPrice: Number(formData.ticketPrice),
-        totalTickets: Number(formData.totalTickets),
-        image: formData.image,
+        ...formData,
+        ticket_price: Number(formData.ticket_price),
+        total_tickets: Number(formData.total_tickets),
+        date: format(formData.date, "yyyy-MM-dd'T'HH:mm:ssXXX"),
       });
       router.push("/profile");
     } catch (err) {
-      console.error("Failed to create event:", err);
+      setError(err instanceof Error ? err.message : "Failed to create event");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="w-[90%] md:w-[70%] lg:w-[60%] mx-auto pt-8">
-      <div className="bg-[#1f2937]/20 p-6 rounded-lg shadow-xl">
-        <h1 className="text-2xl font-bold mb-6 text-white">Create New Event</h1>
+    <div className="container mx-auto px-4 pt-24">
+      <div className="max-w-2xl mx-auto bg-gray-800 rounded-lg p-6">
+        <h1 className="text-2xl font-bold text-white mb-6">Create New Event</h1>
+
+        {error && (
+          <div className="bg-red-500/20 border border-red-500 text-red-500 rounded-md p-3 mb-6">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Event Cover Image */}
-          <div className="relative w-full p-4 rounded-md overflow-hidden bg-[#111827]">
-            <FileUploadDemo />
-          </div>
+          <TextInput
+            label="Event Name"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+          />
 
-          {/* Event Details Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Basic Info */}
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-                  <Info size={16} />
-                  Event Name
-                </label>
-                <TextInput
-                  type="text"
-                  holder="Enter event name"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData({ ...formData, name: e.target.value })
-                  }
-                />
-              </div>
+          <TextInput
+            label="Description"
+            value={formData.description}
+            onChange={(e) =>
+              setFormData({ ...formData, description: e.target.value })
+            }
+            required
+            multiline
+          />
 
-              <div>
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-                  <Calendar size={16} />
-                  Event Date & Time
-                </label>
-                <DatePicker
-                  onChange={(date) => setFormData({ ...formData, date })}
-                />
-              </div>
+          <DateInput
+            label="Event Date"
+            selected={formData.date}
+            onChange={(date) =>
+              setFormData({ ...formData, date: date || new Date() })
+            }
+            required
+          />
 
-              <div>
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-                  <MapPin size={16} />
-                  Location
-                </label>
-                <TextInput
-                  type="text"
-                  holder="Enter event location"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
-                  }
-                />
-              </div>
-            </div>
+          <TextInput
+            label="Location"
+            value={formData.location}
+            onChange={(e) =>
+              setFormData({ ...formData, location: e.target.value })
+            }
+            required
+          />
 
-            {/* Ticket Info */}
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-                  <DollarSign size={16} />
-                  Ticket Price (OKX)
-                </label>
-                <TextInput
-                  type="number"
-                  holder="Enter ticket price"
-                  value={formData.ticketPrice}
-                  onChange={(e) =>
-                    setFormData({ ...formData, ticketPrice: e.target.value })
-                  }
-                />
-              </div>
+          <TextInput
+            label="Ticket Price (FLOW)"
+            type="number"
+            value={formData.ticket_price}
+            onChange={(e) =>
+              setFormData({ ...formData, ticket_price: e.target.value })
+            }
+            required
+            min="0"
+            step="0.1"
+          />
 
-              <div>
-                <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-                  <Users size={16} />
-                  Total Tickets
-                </label>
-                <TextInput
-                  type="number"
-                  holder="Enter total available tickets"
-                  value={formData.totalTickets}
-                  onChange={(e) =>
-                    setFormData({ ...formData, totalTickets: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-          </div>
+          <TextInput
+            label="Total Tickets"
+            type="number"
+            value={formData.total_tickets}
+            onChange={(e) =>
+              setFormData({ ...formData, total_tickets: e.target.value })
+            }
+            required
+            min="1"
+          />
 
-          {/* Description */}
-          <div>
-            <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-              <Info size={16} />
-              Event Description
-            </label>
-            <textarea
-              className="w-full px-4 py-3 rounded-lg bg-[#111827] border border-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              rows={6}
-              placeholder="Enter event description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
-            />
-          </div>
+          <TextInput
+            label="Image URL"
+            value={formData.image_url}
+            onChange={(e) =>
+              setFormData({ ...formData, image_url: e.target.value })
+            }
+            placeholder="https://example.com/image.jpg"
+          />
 
-          {/* Location Map */}
-          <div>
-            <label className="text-sm font-medium text-gray-300 flex items-center gap-2 mb-2">
-              <MapPin size={16} />
-              Event Location on Map
-            </label>
-            <div className="w-full h-[300px] rounded-lg overflow-hidden">
-              <Map />
-            </div>
-          </div>
-
-          {/* Error Message */}
-          {error && (
-            <div className="bg-red-500/10 border border-red-500 text-red-500 px-4 py-2 rounded-lg">
-              {error}
-            </div>
-          )}
-
-          {/* Submit Button */}
-          <div className="flex justify-end">
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors duration-200 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? (
-                <>
-                  <span className="animate-spin">⚪</span>
-                  Creating Event...
-                </>
-              ) : (
-                "Create Event"
-              )}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? "Creating..." : "Create Event"}
+          </button>
         </form>
       </div>
     </div>
   );
-};
-
-export default CreateEvent;
+}

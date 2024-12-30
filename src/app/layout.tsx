@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import "../../flow-config";
 import { AuthContextProvider } from "@/context/AuthContext";
+import { TelegramAuthContextProvider } from "@/context/TelegramAuthContext";
 import { EventContextProvider } from "@/context/EventContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -23,13 +25,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={poppins.className}>
+      <body className={poppins.className} suppressHydrationWarning={true}>
         <AuthContextProvider>
-          <EventContextProvider>
-            <Navbar />
-            <main className="bg-[#111827] min-h-screen py-16">{children}</main>
-            <Footer />
-          </EventContextProvider>
+          <TelegramAuthContextProvider>
+            <EventContextProvider>
+              <Navbar />
+              <main className="bg-[#111827] min-h-screen py-16">
+                {children}
+              </main>
+              <Footer />
+            </EventContextProvider>
+          </TelegramAuthContextProvider>
         </AuthContextProvider>
       </body>
     </html>

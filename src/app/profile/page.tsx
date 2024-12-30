@@ -1,160 +1,92 @@
 // src/app/profile/page.tsx
 "use client";
 
-import React from 'react';
-import { useAuth } from '@/context/AuthContext';
-import { useEvents } from '@/context/EventContext';
-import { TabsProvider, TabsBtn, TabsContent } from '@/components/core/tab';
-import EventCard from '@/components/EventCard';
-import LoadingSpinner from '@/components/LoadingSpinner';
-import ErrorMessage from '@/components/ErrorMessage';
-import { FiCopy, FiExternalLink } from 'react-icons/fi';
-import Image from 'next/image';
+import React from "react";
+import { useEvents } from "@/context/EventContext";
+import { useAuth } from "@/context/AuthContext";
+import { TabsProvider, TabsBtn, TabsContent } from "@/components/core/tab";
+import EventCard from "@/components/EventCard";
+import TicketCard from "@/components/TicketCard";
+import WalletInfo from "@/components/WalletInfo";
 
-const Profile = () => {
-  const { connected, walletAddress, chainId } = useAuth();
+export default function Profile() {
   const { userEvents, userTickets, loading, error } = useEvents();
+  const { user, loggedIn } = useAuth();
 
-  const copyToClipboard = () => {
-    if (walletAddress) {
-      navigator.clipboard.writeText(walletAddress);
-    }
-  };
-
-  if (!connected) {
+  if (!loggedIn) {
     return (
-      <div className="w-full h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Connect Your Wallet</h1>
-          <p className="text-gray-400">Please connect your wallet to view your profile</p>
+      <div className="container mx-auto px-4 pt-24">
+        <div className="text-center text-white">
+          Please connect your wallet to view your profile.
         </div>
       </div>
     );
   }
 
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 pt-24">
+        <div className="text-center text-white">Loading profile...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 pt-24">
+        <div className="text-center text-red-500">{error}</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="w-[90%] md:w-[70%] lg:w-[60%] mx-auto pt-16">
-      {error && <ErrorMessage message={error} />}
-      <div className="bg-[#1f2937]/20 p-5 rounded-md">
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="relative w-16 h-16 rounded-full overflow-hidden">
-              <Image 
-                src="/profile.jpg" 
-                alt="Profile" 
-                fill 
-                className="object-cover"
-              />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">My Profile</h1>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-sm text-gray-400">{walletAddress?.slice(0, 6)}...{walletAddress?.slice(-4)}</p>
-                <button 
-                  onClick={copyToClipboard}
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  <FiCopy size={14} />
-                </button>
-                <a 
-                  href={`https://oklink.com/okc/address/${walletAddress}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-600"
-                >
-                  <FiExternalLink size={14} />
-                </a>
-              </div>
-              {chainId && (
-                <p className="text-sm text-gray-400 mt-1">
-                  Chain ID: {chainId}
-                </p>
-              )}
-            </div>
+    <div className="container mx-auto px-4 pt-24">
+      <WalletInfo address={user.addr || ""} />
+
+      <TabsProvider defaultValue="events" className="mt-8">
+        <div className="flex justify-center mt-2">
+          <div className="flex items-center w-fit dark:bg-[#1d2025] bg-gray-200 p-1 dark:text-white text-black rounded-md border">
+            <TabsBtn value="events">
+              <span className="relative z-[2] uppercase">MY EVENTS</span>
+            </TabsBtn>
+            <TabsBtn value="tickets">
+              <span className="relative z-[2] uppercase">MY TICKETS</span>
+            </TabsBtn>
           </div>
         </div>
 
-        <TabsProvider defaultValue="my-events">
-          <div className="flex justify-center mt-2">
-            <div className="flex items-center w-fit bg-[#1f2937] p-1 text-[#d1d5d8] rounded-md">
-              <TabsBtn value="my-events">
-                <span className="relative z-[2] uppercase text-sm md:text-md">My Events</span>
-              </TabsBtn>
-              <TabsBtn value="my-tickets">
-                <span className="relative z-[2] uppercase text-sm md:text-md">My Tickets</span>
-              </TabsBtn>
-            </div>
+        <TabsContent value="events">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+            {userEvents.length === 0 ? (
+              <div className="col-span-full text-center text-gray-400">
+                You haven&apos;t created any events yet.
+              </div>
+            ) : (
+              userEvents.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))
+            )}
           </div>
+        </TabsContent>
 
-          <TabsContent value="my-events">
-            <div className="w-full mt-5">
-              {loading ? (
-                <div className="flex justify-center py-8">
-                  <LoadingSpinner />
-                </div>
-              ) : userEvents.length > 0 ? (
-                userEvents.map(event => (
-                  <EventCard
-                    key={event.id}
-                    {...event}
-                  />
-                ))
-              ) : (
-                <div className="text-center mt-10">
-                  <h2 className="font-bold">No Events Created</h2>
-                  <p className="font-light text-sm">
-                    You haven&apos;t created any events yet. <br />
-                    Start by creating your first event!
-                  </p>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-
-          <TabsContent value="my-tickets">
-            <div className="w-full mt-5">
-              {loading ? (
-                <div className="flex justify-center py-8">
-                  <LoadingSpinner />
-                </div>
-              ) : userTickets.length > 0 ? (
-                <div className="space-y-4">
-                  {userTickets.map(ticket => {
-                    const event = userEvents.find(e => e.id === ticket.eventId);
-                    if (!event) return null;
-                    return (
-                      <div key={`${ticket.eventId}-${ticket.purchaseDate}`} className="p-4 bg-[#111827] rounded-md">
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <h3 className="font-bold text-lg">{event.name}</h3>
-                            <p className="text-sm text-gray-400">
-                              Purchased on {new Date(ticket.purchaseDate).toLocaleDateString()}
-                            </p>
-                          </div>
-                          <div className="text-right">
-                            <p className="font-bold">{event.ticketPrice} OKX</p>
-                            <p className="text-sm text-gray-400">Ticket Price</p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="text-center mt-10">
-                  <h2 className="font-bold">No Tickets Purchased</h2>
-                  <p className="font-light text-sm">
-                    You haven&apos;t purchased any tickets yet. <br />
-                    Browse events to find something interesting!
-                  </p>
-                </div>
-              )}
-            </div>
-          </TabsContent>
-        </TabsProvider>
-      </div>
+        <TabsContent value="tickets">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-8">
+            {userTickets.length === 0 ? (
+              <div className="col-span-full text-center text-gray-400">
+                You haven&apos;t purchased any tickets yet.
+              </div>
+            ) : (
+              userTickets.map((ticket) => (
+                <TicketCard
+                  key={ticket.id}
+                  event={ticket.events}
+                  purchaseDate={new Date(ticket.purchase_date)}
+                />
+              ))
+            )}
+          </div>
+        </TabsContent>
+      </TabsProvider>
     </div>
   );
-};
-
-export default Profile;
+}

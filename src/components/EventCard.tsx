@@ -1,82 +1,65 @@
 // src/components/EventCard.tsx
 "use client";
 
-import React from 'react';
-import Image from 'next/image';
-import { CalendarClock, MapPin } from 'lucide-react';
-import { format } from 'date-fns';
-import Link from 'next/link';
+import React from "react";
+import { format } from "date-fns";
+import { Calendar, MapPin, Ticket } from "lucide-react";
+import type { Event } from "@/lib/supabase";
+import Link from "next/link";
+import Image from "next/image";
 
 interface EventCardProps {
-  id: string;
-  name: string;
-  date: Date;
-  location: string;
-  ticketPrice: number;
-  organizer: string;
-  image?: string;
-  availableTickets: number;
-  totalTickets: number;
+  event: Event;
 }
 
-const EventCard = ({
-  id,
-  name,
-  date,
-  location,
-  ticketPrice,
-  image,
-  availableTickets,
-  totalTickets,
-}: EventCardProps) => {
-  const isUpcoming = new Date(date) > new Date();
-
+export default function EventCard({ event }: EventCardProps) {
   return (
-    <div className='p-4 rounded-md ring-1 ring-slate-600 mb-4 bg-[#111827] space-y-3'>
-      <div className='relative w-full h-48 rounded-md overflow-hidden mb-4'>
-        <Image
-          src={image || '/event-default.jpg'}
-          alt={name}
-          fill
-          className='object-cover'
-        />
-      </div>
-      <h2 className='font-bold text-lg'>{name}</h2>
-      <h3 className='font-light gap-x-2 text-slate-300 inline-flex'>
-        Status:{' '}
-        <span className='text-white font-medium inline-flex gap-x-2 items-center'>
-          <div className={`w-2 h-2 rounded-full ${isUpcoming ? 'bg-blue-700' : 'bg-gray-500'}`}></div>
-          {isUpcoming ? 'upcoming' : 'past'}
-        </span>
-      </h3>
-      <div className='flex items-center text-xs gap-x-2 text-slate-300'>
-        <CalendarClock width={16} />
-        <span>{format(date, "MMMM d, yyyy | h:mma")}</span>
-      </div>
-      <div className='flex items-center text-xs gap-x-2 text-slate-300'>
-        <MapPin width={16} />
-        <span>{location}</span>
-      </div>
-      <hr className='border border-solid' />
-      <div className='flex items-center justify-between'>
-        <div className='inline-flex items-center'>
-          <h2 className='font-bold text-xl sm:text-2xl lg:text-4xl'>{ticketPrice} OKX</h2>
-          <span className='text-sm ms-2 text-gray-400'>Ticket Price</span>
-        </div>
-        <Link 
-          href={`/event/${id}`}
-          className='px-5 py-3 rounded-md text-white bg-blue-700 text-sm hover:bg-blue-800 transition-colors'
-        >
-          View Details
-        </Link>
-      </div>
-      <div className='mt-2'>
-        <p className='text-sm text-gray-400'>
-          {availableTickets} tickets remaining out of {totalTickets}
-        </p>
-      </div>
-    </div>
-  );
-};
+    <Link href={`/events/${event.id}`}>
+      <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 h-full">
+        {event.image_url && (
+          <div className="relative h-48">
+            <Image
+              src={event.image_url}
+              alt={event.name}
+              fill
+              className="object-cover"
+            />
+          </div>
+        )}
 
-export default EventCard;
+        <div className="p-6">
+          <h3 className="text-xl font-bold text-white mb-2">{event.name}</h3>
+          <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+            {event.description}
+          </p>
+
+          <div className="space-y-2 mb-4">
+            <div className="flex items-center text-gray-300">
+              <Calendar className="w-4 h-4 mr-2" />
+              <span className="text-sm">
+                {format(new Date(event.date), "PPP")}
+              </span>
+            </div>
+
+            <div className="flex items-center text-gray-300">
+              <MapPin className="w-4 h-4 mr-2" />
+              <span className="text-sm">{event.location}</span>
+            </div>
+
+            <div className="flex items-center text-gray-300">
+              <Ticket className="w-4 h-4 mr-2" />
+              <span className="text-sm">
+                {event.available_tickets} tickets available
+              </span>
+            </div>
+          </div>
+
+          <div className="text-white">
+            <span className="text-lg font-bold">{event.ticket_price} FLOW</span>
+            <span className="text-sm text-gray-400 ml-1">per ticket</span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}

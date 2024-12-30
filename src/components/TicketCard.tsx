@@ -1,56 +1,63 @@
 // src/components/TicketCard.tsx
-import React from 'react';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import { CalendarClock, MapPin } from 'lucide-react';
+"use client";
+
+import React from "react";
+import { format } from "date-fns";
+import { Calendar, MapPin, Ticket } from "lucide-react";
+import type { Event } from "@/lib/supabase";
+import Image from "next/image";
 
 interface TicketCardProps {
-  eventId: string;
-  eventName: string;
+  event: Event;
   purchaseDate: Date;
-  eventDate: Date;
-  location: string;
-  ticketPrice: number;
 }
 
-const TicketCard = ({
-  eventId,
-  eventName,
-  purchaseDate,
-  eventDate,
-  location,
-  ticketPrice,
-}: TicketCardProps) => {
+export default function TicketCard({ event, purchaseDate }: TicketCardProps) {
   return (
-    <div className="p-4 bg-[#111827] rounded-md">
-      <div className="flex justify-between items-start">
-        <div className="space-y-2">
-          <h3 className="font-bold text-lg">{eventName}</h3>
-          <div className='flex items-center text-xs gap-x-2 text-slate-300'>
-            <CalendarClock width={16} />
-            <span>{format(eventDate, "MMMM d, yyyy | h:mma")}</span>
-          </div>
-          <div className='flex items-center text-xs gap-x-2 text-slate-300'>
-            <MapPin width={16} />
-            <span>{location}</span>
-          </div>
-          <p className="text-sm text-gray-400">
-            Purchased on {format(purchaseDate, "MMMM d, yyyy")}
-          </p>
+    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+      {event.image_url && (
+        <div className="relative h-48">
+          <Image
+            src={event.image_url}
+            alt={event.name}
+            fill={true}
+            className="w-full h-full object-cover"
+          />
         </div>
-        <div className="text-right">
-          <p className="font-bold text-xl">{ticketPrice} OKX</p>
-          <p className="text-sm text-gray-400">Ticket Price</p>
-          <Link 
-            href={`/event/${eventId}`}
-            className="inline-block mt-2 px-4 py-2 bg-blue-700 hover:bg-blue-800 rounded-md text-sm text-white transition-colors"
-          >
-            View Event
-          </Link>
+      )}
+
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-white mb-2">{event.name}</h3>
+        <p className="text-gray-400 text-sm mb-4 line-clamp-2">
+          {event.description}
+        </p>
+
+        <div className="space-y-2 mb-4">
+          <div className="flex items-center text-gray-300">
+            <Calendar className="w-4 h-4 mr-2" />
+            <span className="text-sm">
+              {format(new Date(event.date), "PPP")}
+            </span>
+          </div>
+
+          <div className="flex items-center text-gray-300">
+            <MapPin className="w-4 h-4 mr-2" />
+            <span className="text-sm">{event.location}</span>
+          </div>
+
+          <div className="flex items-center text-gray-300">
+            <Ticket className="w-4 h-4 mr-2" />
+            <span className="text-sm">
+              Purchased on {format(purchaseDate, "PPP")}
+            </span>
+          </div>
+        </div>
+
+        <div className="text-white">
+          <span className="text-lg font-bold">{event.ticket_price} FLOW</span>
+          <span className="text-sm text-gray-400 ml-1">paid</span>
         </div>
       </div>
     </div>
   );
-};
-
-export default TicketCard;
+}
