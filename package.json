@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@okxconnect/ui": "^1.6.1",
     "@onflow/fcl": "^1.13.4",
     "@onflow/types": "^1.4.1",
     "@openzeppelin/contracts": "^5.1.0",
