@@ -50,7 +50,7 @@ export default function Home() {
       {/* Features Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="bg-gray-800 p-6 rounded-lg text-center">
+          <div className="bg-gray-800/60 backdrop-blur hover:backdrop-blur-sm transition-all ease-in duration-100 p-6 rounded-lg text-center">
             <div className="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <CalendarDays className="w-8 h-8 text-white" />
             </div>
@@ -60,7 +60,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg text-center">
+          <div className="bg-gray-800/60 backdrop-blur hover:backdrop-blur-sm transition-all ease-in duration-100 p-6 rounded-lg text-center">
             <div className="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <Ticket className="w-8 h-8 text-white" />
             </div>
@@ -70,7 +70,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="bg-gray-800 p-6 rounded-lg text-center">
+          <div className="bg-gray-800/60 backdrop-blur hover:backdrop-blur-sm transition-all ease-in duration-100  p-6 rounded-lg text-center">
             <div className="w-16 h-16 bg-blue-700 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="w-8 h-8 text-white" />
             </div>

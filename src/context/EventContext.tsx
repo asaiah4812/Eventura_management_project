@@ -5,6 +5,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { useAuth } from "./AuthContext";
 import * as supabaseClient from "@/lib/supabase";
 import type { Event, Ticket } from "@/lib/supabase";
+import { useContract } from "./ContractContext";
 
 interface EventContextType {
   events: Event[];
@@ -28,6 +29,7 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { user } = useAuth();
+  const { contract } = useContract();
   const [events, setEvents] = useState<Event[]>([]);
   const [userEvents, setUserEvents] = useState<Event[]>([]);
   const [userTickets, setUserTickets] = useState<
@@ -73,13 +75,33 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
       throw new Error("Please connect your wallet first");
     }
 
+    if (!contract) {
+      throw new Error("Smart contract not connected");
+    }
+
     setLoading(true);
     try {
+      // Create event on blockchain
+      const eventDateTime = new Date(eventData.date).getTime() / 1000;
+      const saleDeadline = eventDateTime; // You might want to set this differently
+      
+      await contract.createEvent(
+        eventData.name,
+        eventData.description,
+        eventDateTime,
+        eventData.location,
+        eventData.ticket_price,
+        eventData.total_tickets,
+        saleDeadline
+      );
+
+      // Also create event in Supabase
       await supabaseClient.createEvent({
         ...eventData,
         organizer_wallet: user.addr,
         available_tickets: eventData.total_tickets,
       });
+
       await refreshEvents();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create event");
@@ -94,14 +116,27 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
       throw new Error("Please connect your wallet first");
     }
 
+    if (!contract) {
+      throw new Error("Smart contract not connected");
+    }
+
     setLoading(true);
     try {
+      const event = await supabaseClient.getEventById(eventId);
+      
+      // Purchase ticket on blockchain
+      await contract.registerForEvent(
+        parseInt(eventId),
+        user.addr, // using wallet address as buyer name
+        event.ticket_price.toString()
+      );
+
+      // Also record purchase in Supabase
       await supabaseClient.buyTicket(eventId, user.addr);
+      
       await refreshEvents();
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to purchase ticket"
-      );
+      setError(err instanceof Error ? err.message : "Failed to purchase ticket");
       throw err;
     } finally {
       setLoading(false);

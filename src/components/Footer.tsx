@@ -42,7 +42,7 @@ const Footer = () => {
     }
 
     return (
-        <div className='w-fit fixed bottom-5 inset-x-0 gap-3 mx-auto rounded-full p-2 bg-[#1f2937] flex mt-10'>
+        <div className='w-fit fixed bottom-5 inset-x-0 gap-3 mx-auto rounded-full p-2 bg-[#1f2937]/60 backdrop-blur flex mt-10'>
             {links.map(link => (
                 <Link 
                     key={link.id} 

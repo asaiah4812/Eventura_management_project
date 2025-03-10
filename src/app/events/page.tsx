@@ -8,6 +8,7 @@ import { Plus, CalendarPlus } from "lucide-react";
 import EventCard from "@/components/EventCard";
 import { TabsProvider, TabsBtn, TabsContent } from "@/components/core/tab";
 import Image from "next/image";
+import ContractTest from "@/components/ContractTest";
 
 export default function EventsPage() {
   const { events, loading, error } = useEvents();
@@ -38,6 +39,8 @@ export default function EventsPage() {
 
   return (
     <div className="container mx-auto px-4 pt-18">
+      <ContractTest />
+
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold text-white">All Events</h1>
         {loggedIn && (
