@@ -1,10 +1,9 @@
 {
   "/_not-found/page": "app/_not-found/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/create-event/page": "app/create-event/page.js",
-  "/event/page": "app/event/page.js",
-  "/events/[id]/page": "app/events/[id]/page.js",
-  "/events/page": "app/events/page.js",
   "/page": "app/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/event/page": "app/event/page.js",
+  "/create-event/page": "app/create-event/page.js",
+  "/events/page": "app/events/page.js",
   "/profile/page": "app/profile/page.js"
 }

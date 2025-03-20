@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, ReactNode } from 'react';
 import useCurrentUser from "@/hooks/use-current-user.hook";
 import "../../flow-config";
 
@@ -19,9 +19,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export function AuthContextProvider({ children }: { children: ReactNode }) {
   const [user, loggedIn, logIn, logOut, error] = useCurrentUser();
 
   return (
@@ -29,12 +27,12 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth must be used within an AuthContextProvider");
+  if (context === undefined) {
+    throw new Error('useAuth must be used within an AuthContextProvider');
   }
   return context;
-};
+}

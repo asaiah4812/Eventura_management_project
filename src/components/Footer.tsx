@@ -1,4 +1,6 @@
-"use client"
+"use client";
+
+import React from 'react';
 import Link from 'next/link';
 import { FiHome, FiCalendar, FiUser } from "react-icons/fi";
 import { usePathname } from 'next/navigation';
@@ -31,7 +33,7 @@ const links: LinkProps[] = [
     },
 ]
 
-const Footer = () => {
+export default function Footer() {
     const pathname = usePathname()
 
     const isActive = (url: string) => {
@@ -56,6 +58,4 @@ const Footer = () => {
         </div>
     )
 }
-
-export default Footer
 

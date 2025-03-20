@@ -82,7 +82,7 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(true);
     try {
       // Create event on blockchain
-      const eventDateTime = new Date(eventData.date).getTime() / 1000;
+      const eventDateTime = Math.floor(new Date(eventData.date).getTime() / 1000);
       const saleDeadline = eventDateTime; // You might want to set this differently
       
       await contract.createEvent(
@@ -95,7 +95,7 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
         saleDeadline
       );
 
-      // Also create event in Supabase
+      // Create event in Supabase
       await supabaseClient.createEvent({
         ...eventData,
         organizer_wallet: user.addr,
@@ -104,8 +104,9 @@ export const EventContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
       await refreshEvents();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create event");
-      throw err;
+      const errorMessage = err instanceof Error ? err.message : "Failed to create event";
+      setError(errorMessage);
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }

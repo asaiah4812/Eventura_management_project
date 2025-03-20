@@ -14,7 +14,7 @@
     "@openzeppelin/contracts": "^5.1.0",
     "@radix-ui/react-popover": "^1.1.4",
     "@react-google-maps/api": "^2.20.5",
-    "@supabase/supabase-js": "^2.47.10",
+    "@supabase/supabase-js": "^2.49.1",
     "@tabler/icons-react": "^3.26.0",
     "@twa-dev/sdk": "^8.0.1",
     "clsx": "^2.1.1",

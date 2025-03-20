@@ -1,14 +1,12 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
-import "../../flow-config";
 import { AuthContextProvider } from "@/context/AuthContext";
 import { TelegramAuthContextProvider } from "@/context/TelegramAuthContext";
 import { EventContextProvider } from "@/context/EventContext";
+import { ContractContextProvider } from "@/context/ContractContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ContractContextProvider } from "@/context/ContractContext";
-
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -22,24 +20,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={poppins.className} suppressHydrationWarning={true} >
+      <body className={poppins.className} suppressHydrationWarning={true}>
         <AuthContextProvider>
           <ContractContextProvider>
             <TelegramAuthContextProvider>
               <EventContextProvider>
                 <Navbar />
-                <main className="bg-[#1118272a] min-h-screen py-16" style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/bg.jpg')`,
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        minHeight: '100vh',
-      }}>
+                <main
+                  className="bg-[#1118272a] min-h-screen py-16"
+                  style={{
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.7)), url('/bg.jpg')`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    minHeight: '100vh',
+                  }}
+                >
                   {children}
                 </main>
                 <Footer />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
@@ -11,7 +11,7 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 
-const Navbar = () => {
+export default function Navbar() {
   const { user, loggedIn, logIn, logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -118,5 +118,3 @@ const Navbar = () => {
     </div>
   );
 };
-
-export default Navbar;

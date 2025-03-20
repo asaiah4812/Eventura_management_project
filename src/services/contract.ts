@@ -1,5 +1,26 @@
 import { ethers } from "ethers";
 
+// Define error types
+interface EthereumError extends Error {
+  code?: string | number;
+  data?: unknown;
+  message: string;
+}
+
+// Define Ethereum provider interface
+interface EthereumProvider {
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+  on: (event: string, callback: () => void) => void;
+  removeListener: (event: string, callback: () => void) => void;
+}
+
+// Update the global declaration
+declare global {
+  interface Window {
+    ethereum?: EthereumProvider;
+  }
+}
+
 const CONTRACT_ADDRESS = "0xf0a909393495fd3d19F61a11d4ce854586635851";
 
 const CONTRACT_ABI = [
@@ -570,13 +591,15 @@ export class EventuraContract {
         location,
         ethers.utils.parseEther(ticketPrice.toString()),
         totalTickets,
-        saleDeadline
+        saleDeadline,
+        { gasLimit: 3000000 }
       );
       await tx.wait();
       return tx;
-    } catch (error) {
-      console.error("Error creating event:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error creating event:", ethError);
+      throw new Error(ethError.message || "Failed to create event");
     }
   }
 
@@ -587,9 +610,10 @@ export class EventuraContract {
         ...event,
         ticketPrice: ethers.utils.formatEther(event.ticketPrice),
       };
-    } catch (error) {
-      console.error("Error getting event:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error getting event:", ethError);
+      throw ethError;
     }
   }
 
@@ -604,9 +628,10 @@ export class EventuraContract {
       });
       await tx.wait();
       return tx;
-    } catch (error) {
-      console.error("Error registering for event:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error registering for event:", ethError);
+      throw ethError;
     }
   }
 
@@ -615,9 +640,10 @@ export class EventuraContract {
       const tx = await this.contract.cancelEvent(eventId);
       await tx.wait();
       return tx;
-    } catch (error) {
-      console.error("Error canceling event:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error canceling event:", ethError);
+      throw ethError;
     }
   }
 
@@ -626,18 +652,20 @@ export class EventuraContract {
       const tx = await this.contract.withdrawFunds(eventId);
       await tx.wait();
       return tx;
-    } catch (error) {
-      console.error("Error withdrawing funds:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error withdrawing funds:", ethError);
+      throw ethError;
     }
   }
 
   async getEventCounter() {
     try {
       return await this.contract.eventCounter();
-    } catch (error) {
-      console.error("Error getting event counter:", error);
-      throw error;
+    } catch (error: unknown) {
+      const ethError = error as EthereumError;
+      console.error("Error getting event counter:", ethError);
+      throw ethError;
     }
   }
 }
